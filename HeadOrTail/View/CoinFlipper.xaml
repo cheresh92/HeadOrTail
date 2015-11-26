@@ -1,0 +1,22 @@
+﻿<UserControl
+    x:Class="HeadOrTail.View.CoinFlipper"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HeadOrTail.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="200"
+    d:DesignWidth="200">
+    <Grid>
+        <Rectangle Stroke="White" Tapped="UIElement_OnTapped">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="ms-appx:///Assets/CoinSprite.png" Stretch="None" AlignmentX="Left" AlignmentY="Top">
+                    <ImageBrush.Transform>
+                        <TranslateTransform x:Name="SpriteSheetOffset" X="0" Y="0" />
+                    </ImageBrush.Transform>
+                </ImageBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+    </Grid>
+</UserControl>
