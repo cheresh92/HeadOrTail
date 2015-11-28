@@ -128,7 +128,8 @@ namespace HeadOrTail
             var deferral = e.SuspendingOperation.GetDeferral();
 
             // TODO: Save application state and stop any background activity
-            //App.HeadsOrTails.SaveData();
+            HeadsOrTails.Statistic.Save();
+
             deferral.Complete();
         }
 

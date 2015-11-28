@@ -41,7 +41,7 @@ namespace HeadOrTail.Model
 
         #region Реализация IHeadsOrTailsModel
         
-        #region ThrowCoin
+        #region TossCoin
         /// <summary>
         /// Бросить монетку
         /// </summary>

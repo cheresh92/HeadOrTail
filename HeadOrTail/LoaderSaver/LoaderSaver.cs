@@ -43,8 +43,7 @@ namespace HeadOrTail.LoaderSaver
                 }
                 catch (Exception)
                 {
-                    StorageFile file = local.CreateFileAsync(filename).GetResults();
-                    stream = local.OpenStreamForReadAsync(filename).Result;
+                    setting = new HeadsOrTailsData();
                 }
                 
 

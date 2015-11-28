@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using HeadOrTail.ViewModel;
+using HeadOrTail.ViewModel.Interfaces;
 
 namespace HeadOrTail.LoaderSaver
 {
@@ -24,13 +26,25 @@ namespace HeadOrTail.LoaderSaver
         /// Все броски монеты (считаются только броски, если бросить несколько монет, то засчитывается за 1)
         /// </summary>
         public uint AllCoinThrowCount;
+
+        /// <summary>
+        /// Колличество выпаших орлов
+        /// </summary>
+        public uint HeadsCount;
+
+        /// <summary>
+        /// Колличество выпавших решок
+        /// </summary>
+        public uint TailsCount;
         
 
-        public HeadsOrTailsData(ViewModel.HeadsOrTailsViewModel headsOrTailsViewModel)
+        public HeadsOrTailsData(IStatistic statistic)
         {
-            GuessCoinCount = headsOrTailsViewModel.GuessCoinCount;
-            CorrectlyGuessCoinCount = headsOrTailsViewModel.CorrectlyGuessCoinCount;
-            AllCoinThrowCount = headsOrTailsViewModel.AllCoinThrowCount;
+            GuessCoinCount = statistic.GuessCoinCount;
+            CorrectlyGuessCoinCount = statistic.CorrectlyGuessCoinCount;
+            AllCoinThrowCount = statistic.AllCoinThrowCount;
+            HeadsCount = statistic.HeadsCount;
+            TailsCount = statistic.TailsCount;
         }
 
         public HeadsOrTailsData() { }

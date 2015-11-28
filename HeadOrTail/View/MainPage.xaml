@@ -6,29 +6,154 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:convertors="using:HeadOrTail.View.Convertors"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:view="using:HeadOrTail.View"
+    xmlns:model="using:HeadOrTail.Model"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Unloaded="MainPage_OnUnloaded">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <convertors:TextCoinConvertor x:Name="TextCoinConvertor"></convertors:TextCoinConvertor>
+        <convertors:ChoosingCoinConvertor x:Name="ChoosingCoinConvertor"></convertors:ChoosingCoinConvertor>
+        <model:HeadsOrTailsEnum x:Key="HeadsEnum">Heads</model:HeadsOrTailsEnum>
+        <model:HeadsOrTailsEnum x:Key="TailsEnum">Tails</model:HeadsOrTailsEnum>
+        <Style TargetType="TextBlock" x:Key="Style">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+         </Style>
+        <Style TargetType="RadioButton" x:Key="TailsStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid Name="BackgoundEllipse" Background="#00000000">
+                            <Viewbox Stretch="Uniform">
+                                <Ellipse x:Name="ellipse" Width="100" Height="100" Stroke="#00000000" StrokeThickness="6"> 
+                                    <Ellipse.Fill>
+                                		<ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Tails.png"/>
+                                	</Ellipse.Fill>
+                                </Ellipse>
+                            </Viewbox>
+                            <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CheckStates">
+                                        <VisualState x:Name="Checked">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke)" Storyboard.TargetName="ellipse">
+                                                <DiscreteObjectKeyFrame KeyTime="0"  Value="{StaticResource ButtonPressedBackgroundThemeBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Unchecked"/>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="#00000000"/>
+        </Style>
+        <Style TargetType="RadioButton" x:Key="HeadsStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid Name="BackgoundEllipse">
+                            <Viewbox Stretch="Uniform">
+                                <Ellipse x:Name="ellipse" Width="100" Height="100" Stroke="#00000000" StrokeThickness="6">
+                                    <Ellipse.Fill>
+                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Heads.png"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                            </Viewbox>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke)" Storyboard.TargetName="ellipse">
+                                                <DiscreteObjectKeyFrame KeyTime="0"  Value="{StaticResource ButtonPressedBackgroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="#00000000"/>
+        </Style>
     </Page.Resources>
-
+  
     <Grid>
-    	<!--<Ellipse x:Name="ellipse" HorizontalAlignment="Center" Height="250" Stroke="White" VerticalAlignment="Center" Width="250" StrokeThickness="2" Fill="Black" RenderTransformOrigin="0.5,0.5"></Ellipse>
-        <TextBlock Name="Coin" Text="{Binding Converter={StaticResource TextCoinConvertor}, Path=SideOfCoin}"  HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="40"/>
-        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Text="Брошенно раз: " FontSize="30" Margin="10,22,125,570" />
-        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding AllCoinThrowCount}" FontSize="40" Margin="262,22,42,570"/>
-        <Button Click="ButtonBase_OnClick" Margin="113,567,0,16">Сохранить данные</Button>-->
-        <Button Command="{Binding ThrowCoinCommand}" Margin="113,510,0,73">Бросить монету</Button>
-        <Rectangle Stroke="White" Width="200" Height="200">
-            <Rectangle.Fill>
-                <ImageBrush ImageSource="ms-appx:///Assets/CoinSprite.png" Stretch="None" AlignmentX="Left" AlignmentY="Top">
-                    <ImageBrush.Transform>
-                        <TranslateTransform x:Name="SpriteSheetOffset" X="{Binding AnimationSprite.XOffset}" Y="0" />
-                    </ImageBrush.Transform>
-                </ImageBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <!--<view:CoinFlipper Width="200" Height="200"></view:CoinFlipper>-->
+        <Hub Header="Heads or Tails">
+            <HubSection Header="Toss a coin" FontSize="30" >
+                <DataTemplate>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Viewbox Width="300">
+                            <Rectangle Width="200" Height="200" Tapped="UIElement_OnTapped">
+                                <Rectangle.Fill>
+                                    <ImageBrush ImageSource="ms-appx:///Assets/CoinSprite.png" Stretch="None" AlignmentX="Left" AlignmentY="Top">
+                                        <ImageBrush.Transform>
+                                            <TranslateTransform x:Name="SpriteSheetOffset" X="{Binding ThrownCointAnimation.XOffset}" Y="0" />
+                                        </ImageBrush.Transform>
+                                    </ImageBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </Viewbox>
+                        <Button Command="{Binding ThrowCoinCommand}" Margin="10, 50, 10, 10" HorizontalAlignment="Center" >Throw a coin</Button>
+                    </StackPanel>
+                </DataTemplate>
+            </HubSection>
+
+            <HubSection Header="Guess coin" FontSize="16" DataContext="{Binding GuessToss}">
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Style="{StaticResource TailsStyle}" IsChecked="{Binding Converter={StaticResource ChoosingCoinConvertor}, Path=GuessSideOfCoin, ConverterParameter={StaticResource TailsEnum}, Mode=TwoWay}"/>
+                        <RadioButton Style="{StaticResource HeadsStyle}" Grid.Column="1" IsChecked="{Binding Converter={StaticResource ChoosingCoinConvertor}, Path=GuessSideOfCoin, ConverterParameter={StaticResource HeadsEnum}, Mode=TwoWay}"/>
+                        <TextBlock Grid.ColumnSpan="2" Margin="0, 200" Text="{Binding Converter={StaticResource TextCoinConvertor}, Path=GuessSideOfCoin}"></TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </HubSection>
+            <HubSection Header="Toss a several coin" FontSize="30">
+                <DataTemplate>
+                    
+                    
+                </DataTemplate>
+            </HubSection>
+
+            <HubSection Header="Statistic" FontSize="30" DataContext="{Binding TossCoin}">
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource Style}" Grid.Column="0" Grid.Row="0">All throws of coin</TextBlock>
+                        <TextBlock Style="{StaticResource Style}" Grid.Column="0" Grid.Row="1">Heads Count</TextBlock>
+                        <TextBlock Style="{StaticResource Style}" Grid.Column="0" Grid.Row="2">Tails Count</TextBlock>
+                        <TextBlock Style="{StaticResource Style}" Grid.Column="0" Grid.Row="3">Guess Coin Count</TextBlock>
+                        <TextBlock Style="{StaticResource Style}" Grid.Column="0" Grid.Row="4">Correctly Guess</TextBlock>
+
+                        <TextBlock Style="{StaticResource Style}" Grid.Column="1" Grid.Row="0" Text="{Binding AllCoinThrowCount}"/>
+                        <TextBlock Style="{StaticResource Style}" Grid.Column="1" Grid.Row="1" Text="{Binding HeadsCount}"/>
+                        <TextBlock Style="{StaticResource Style}" Grid.Column="1" Grid.Row="2" Text="{Binding TailsCount}"/>
+                        <TextBlock Style="{StaticResource Style}" Grid.Column="1" Grid.Row="3" Text="{Binding GuessCoinCount}"/>
+                        <TextBlock Style="{StaticResource Style}" Grid.Column="1" Grid.Row="4" Text="{Binding CorrectlyGuessCoinCount}"/>
+                    </Grid>
+                </DataTemplate>
+            </HubSection>
+
+
+        </Hub>
     </Grid>
 </Page>

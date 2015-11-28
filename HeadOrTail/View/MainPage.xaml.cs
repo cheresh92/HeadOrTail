@@ -50,16 +50,11 @@ namespace HeadOrTail
             // this event is handled for you.
         }
 
-        private void MainPage_OnUnloaded(object sender, RoutedEventArgs e)
+
+        private void UIElement_OnTapped(object sender, TappedRoutedEventArgs e)
         {
-            
+            if (App.HeadsOrTails.TossCoin.ThrowCoinCommand.CanExecute(null))
+                App.HeadsOrTails.TossCoin.ThrowCoinCommand.Execute(null);
         }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            //App.HeadsOrTails.SaveData();
-        }
-
-
     }
 }

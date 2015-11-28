@@ -98,7 +98,6 @@ namespace HeadOrTail.ViewModel
         }
         #endregion
         
-        
         /// <summary>
         /// Создать анимацию спрайта. Анимация работает в основном потоке, так как влияет на визульную состовляющую.
         /// Спрайт дожен быть горизонтальным озображением, где в начале находится "Орел" а в середине "Решка".
@@ -210,7 +209,7 @@ namespace HeadOrTail.ViewModel
             timer.Start();
         }
         #endregion
-
+        
         #region AnimationStoped Implementation
         /// <summary>
         /// Событие окончания анимации
